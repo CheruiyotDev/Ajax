@@ -1,33 +1,26 @@
 const url = './api/people.json';
 
-function getData(url) {
-  const xhr = new XMLHttpRequest();
-  console.log(xhr);
-  xhr.open('GET', url);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      const data = JSON.parse(xhr.responseText);
-      const displayData = data
-        .map((item) => {
-          return `
-          <h1>${item.job}</h1>
-          <p>${item.name}</p>`;
-        })
-        .join('');
-      const element = document.createElement('div');
-      element.innerHTML = displayData;
-      document.body.appendChild(element);
-    } else {
-      console.log({
-        status: xhr.status,
-        text: xhr.statusText,
-      });
-    }
-  };
-  xhr.send();
-}
+const btn = document.querySelector('.show-json');
 
-const btn = document.querySelector('.show-text');
 btn.addEventListener('click', () => {
-  getData(url);
+  fetch(url)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      displayItems(data);
+    })
+    .catch((err) => console.log(err));
 });
+
+async function displayItems(items) {
+  const displayData = items
+    .map((item) => {
+      const { name } = item;
+      return `<p>${name}</p>`;
+    })
+    .join('');
+  const element = document.createElement('div');
+  element.innerHTML = displayData;
+  document.body.appendChild(element);
+}
