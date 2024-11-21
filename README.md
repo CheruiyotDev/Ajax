@@ -13,3 +13,8 @@ Despite its name, XMLHttpRequest can be used to retrieve any type of data, not j
 ## JSON
 
 - Javascript object notation
+
+## Fetch
+
+- Fetch built-in
+- Promised based
